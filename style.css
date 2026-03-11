@@ -1,0 +1,790 @@
+/* ========== ПЕРЕМЕННЫЕ ========== */
+:root {
+    /* Цвета */
+    --color-primary: #323747;
+    --color-secondary: #68686A;
+    --color-accent: #61C15C;
+    --color-accent-dark: #28a745;
+    --color-orange: #DB5E31;
+    --color-white: #fff;
+    --color-black: #1a1a1a;
+    --color-dark: #333;
+    --color-gray: #666;
+    --color-border: #BDC1CA;
+    --color-bg-beige: #FEF3EF;
+    --color-bg-green-light: #F4FBF4;
+    
+    /* Типографика */
+    --font-main: 'Inter', sans-serif;
+    --letter-tight: -0.01em;
+    --letter-tighter: -0.02em;
+    --letter-ultra-tight: -0.03em;
+    
+    /* Размеры шрифтов */
+    --text-xs: 14px;
+    --text-sm: 15px;
+    --text-base: 16px;
+    --text-md: 18px;
+    --text-lg: 20px;
+    --text-xl: 22px;
+    --text-2xl: 24px;
+    --text-3xl: 28px;
+    --text-4xl: 32px;
+    --text-5xl: 52px;
+    
+    /* Отступы */
+    --spacing-xs: 8px;
+    --spacing-sm: 10px;
+    --spacing-md: 15px;
+    --spacing-lg: 20px;
+    --spacing-xl: 25px;
+    --spacing-2xl: 30px;
+    --spacing-3xl: 40px;
+    --spacing-4xl: 60px;
+    
+    /* Радиусы */
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    
+    /* Тени */
+    --shadow-sm: 0 2px 5px rgba(0,0,0,0.1);
+    --shadow-md: 0 5px 15px rgba(0,0,0,0.1);
+    
+    /* Контейнеры */
+    --container-max: 1200px;
+    --container-padding: 20px;
+}
+
+/* ========== СБРОС И БАЗОВЫЕ СТИЛИ ========== */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: var(--font-main);
+    color: var(--color-primary);
+}
+
+/* ========== ОБЩИЕ КОНТЕЙНЕРЫ ========== */
+.container,
+.header,
+.greetings,
+.article,
+.experience,
+.hobbi,
+.my_blog,
+.footer-container {
+    max-width: var(--container-max);
+    margin: 0 auto;
+    padding: 0 var(--container-padding);
+}
+
+/* ========== HEADER ========== */
+.header {
+    width: 100%;
+    min-width: 320px;
+    height: 33px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 10%;
+}
+
+.menu ul {
+    display: flex;
+    list-style: none;
+}
+
+.menu li a {
+    margin-right: var(--spacing-md);
+    text-decoration: none;
+}
+
+.menu li:last-child a {
+    margin-right: 0;
+}
+
+/* ========== GREETINGS ========== */
+.greetings {
+    display: flex;
+    width: 100%;
+    height: 427px;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 35px;
+    padding: 0 10%;
+}
+
+.grettings_tetx {
+    width: 50%;
+    padding: var(--spacing-sm);
+}
+
+.grettings_tetx p {
+    margin-top: 35px;
+    margin-bottom: var(--spacing-md);
+}
+
+.grettings_tetx a {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+}
+
+.gretting_img {
+    position: relative;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.gretting_img > div:first-child {
+    border-radius: 0 0 200px 200px;
+    overflow: hidden;
+}
+
+.gretting_img > div:first-child img {
+    height: auto;
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+.img_center {
+    position: absolute;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    pointer-events: none;
+    top: 154px;
+    left: 100px;
+}
+
+.img_center img {
+    height: auto;
+    margin-top: var(--spacing-lg);
+    margin-left: var(--spacing-lg);
+}
+
+/* ========== ARTICLES (СТАТЬИ) ========== */
+.article {
+    display: flex;
+    min-height: 200px;
+    justify-content: space-between;
+    align-items: center;
+    gap: 40px;
+    margin-bottom: var(--spacing-3xl);
+    padding: var(--spacing-2xl) 10%;
+}
+
+.article_text {
+    flex: 1;
+    max-width: 600px;
+}
+
+.article_text h3 {
+    margin: 0 0 var(--spacing-xs) 0;
+    font-weight: 600;
+    color: var(--color-primary);
+    line-height: 1.3;
+}
+
+.article_text p {
+    margin: 0 0 var(--spacing-xs) 0;
+    line-height: 1.5;
+}
+
+.article_img {
+    flex: 0 0 691px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 408px;
+    overflow: hidden;
+}
+
+.article_img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.article:nth-child(1) {
+    background: var(--color-bg-beige);
+}
+
+.article:nth-child(2) {
+    background: var(--color-bg-green-light);
+}
+
+/* ========== SKILLS (НАВЫКИ) ========== */
+.skills-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-lg);
+    max-width: var(--container-max);
+    margin: 0 auto;
+    padding: var(--spacing-lg);
+}
+
+.my_skills {
+    flex: 1 1 calc(33.333% - 14px);
+    min-width: 200px;
+    padding: var(--spacing-lg);
+    text-align: center;
+    border-bottom: 2px solid var(--color-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.title_articles h2 {
+    flex: 0 0 200px;
+    line-height: 1.3;
+    display: flex;
+    align-items: center;
+    margin-bottom: 13px;
+    padding: 5px;
+    font-weight: 700;
+    font-size: var(--text-5xl);
+    color: var(--color-primary);
+    font-size: 52px;
+}
+
+.my_skills_container {
+    flex-wrap: wrap;
+    gap: var(--spacing-lg);
+    justify-content: flex-start;
+    flex-direction: column;
+}
+
+/* ========== EXPERIENCE (ОПЫТ) ========== */
+.experience {
+    display: flex;
+    gap: 40px;
+    align-items: flex-start;
+    padding: var(--spacing-3xl) var(--container-padding);
+}
+
+.experience p {
+    flex: 0 0 200px;
+    display: flex;
+    align-items: center;
+    padding: 5px;
+}
+
+.experience-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+}
+
+.experience-item {
+    display: flex;
+    flex-direction: row;
+    border-bottom: 2px solid var(--color-border);
+    padding: var(--spacing-2xl);
+}
+
+.experience-item img {
+    padding: 0 var(--spacing-lg);
+}
+
+/* ========== HOBBY (УВЛЕЧЕНИЯ) ========== */
+.hobbi {
+    display: flex;
+    gap: 40px;
+    align-items: stretch;
+    padding: var(--spacing-3xl) var(--container-padding);
+}
+
+.hobbi_conteiner_left {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-2xl);
+    padding: var(--spacing-lg);
+}
+
+.hobbi_img_left {
+    display: flex;
+    gap: 60px;
+    justify-content: center;
+    align-items: center;
+}
+
+.hobbi_img_left img {
+    flex: 1 1 200px;
+    min-width: 150px;
+    height: auto;
+}
+
+.hobbi_conteiner_right {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xl);
+    padding: var(--spacing-lg);
+}
+
+.hobbi_conteiner_right > div:first-child {
+    padding: 5px;
+    border-radius: var(--radius-md);
+    margin-bottom: 5px;
+}
+
+.hobbi_conteiner_right > div:first-child p {
+    font-size: var(--text-base);
+    line-height: 1.6;
+}
+
+.hobbi_conteiner_right img {
+    width: 100%;
+    height: auto;
+    align-self: center;
+}
+
+.hobbi h2 {
+    font-size: var(--text-4xl);
+    font-weight: 600;
+    color: var(--color-dark);
+    margin: 0 0 var(--spacing-sm) 0;
+    padding-bottom: var(--spacing-md);
+    position: relative;
+}
+
+/* ========== BLOG (БЛОГ) ========== */
+.my_blog {
+    font-family: var(--font-main);
+    padding: 2% 10%;
+}
+
+.my_blog h1 {
+    color: var(--color-dark);
+    margin: 0 0 var(--spacing-lg) 0;
+    line-height: 1.2;
+    letter-spacing: -0.5px;
+}
+
+.my_blog h1::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100px;
+    height: 4px;
+}
+
+.my_blog p {
+    color: var(--color-gray);
+    margin: 0;
+    line-height: 1.6;
+    max-width: 800px;
+    padding: var(--spacing-sm) 0 var(--spacing-3xl) 0;
+}
+
+.my_blog_next_article {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--spacing-2xl);
+    padding: var(--spacing-3xl) var(--container-padding);
+}
+
+.my_blog_article {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.my_blog_article:hover {
+    transform: translateY(-5px);
+}
+
+.my_blog_article h3 {
+    font-size: var(--text-xl);
+    font-weight: 600;
+    color: var(--color-dark);
+    margin: 0 0 var(--spacing-md) 0;
+    line-height: 1.3;
+}
+
+.my_blog_article p {
+    font-size: var(--text-xs);
+    font-weight: 500;
+    margin: 0 0 var(--spacing-md) 0;
+    padding-bottom: var(--spacing-sm);
+}
+
+.my_blog_article_max_size {
+    display: flex;
+    gap: 40px;
+    align-items: flex-start;
+}
+
+.my_blog_article_max_size img {
+    flex: 2;
+    width: 0;
+    min-width: 0;
+    height: auto;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.my_blog_article_max_size_text {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+}
+
+/* ========== FOOTER ========== */
+.footer {
+    background: var(--color-black);
+    color: var(--color-white);
+    padding: var(--spacing-4xl) 0 var(--spacing-3xl);
+    margin-top: var(--spacing-4xl);
+}
+
+.footer-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 60px;
+    justify-content: space-between;
+}
+
+.footer-column {
+    flex: 1 1 400px;
+    min-width: 300px;
+}
+
+.footer-title {
+    font-size: var(--text-2xl);
+    font-weight: 600;
+    color: var(--color-white);
+    margin: 0 0 var(--spacing-xl) 0;
+    position: relative;
+    padding-bottom: var(--radius-sm);
+}
+
+.contact-info {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-xl);
+    padding-bottom: 70px;
+}
+
+.contact-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    font-size: var(--text-base);
+    color: #ccc;
+}
+
+.contact-label {
+    font-weight: 500;
+    color: var(--color-accent-dark);
+    min-width: 60px;
+}
+
+.contact-link {
+    color: var(--color-white);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.contact-link:hover {
+    color: var(--color-accent-dark);
+}
+
+.social-icons {
+    display: flex;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-xl);
+}
+
+.social-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    color: var(--color-white);
+    transition: all 0.3s ease;
+}
+
+.social-icon:hover {
+    background: var(--color-accent-dark);
+    transform: translateY(-3px);
+}
+
+.feedback-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+    padding: var(--spacing-xl);
+}
+
+.form-group {
+    width: 100%;
+}
+
+.form-input {
+    width: 100%;
+    padding: 14px 16px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-sm);
+    font-size: var(--text-sm);
+    color: var(--color-white);
+    font-family: inherit;
+    transition: all 0.3s ease;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: var(--color-accent-dark);
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.form-input::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+textarea.form-input {
+    resize: vertical;
+    min-height: 100px;
+}
+
+.submit-btn {
+    padding: 14px 25px;
+    background: var(--color-accent-dark);
+    color: var(--color-white);
+    border: none;
+    border-radius: var(--radius-sm);
+    font-size: var(--text-base);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 5px;
+    width: 175px;
+    height: 51px;
+}
+
+.submit-btn:hover {
+    background: var(--color-accent);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+/* ========== КНОПКИ ========== */
+.centr_button {
+    display: flex;
+    justify-content: center;
+}
+
+.button,
+.next-btn {
+    width: 200px;
+    height: 54px;
+    margin: 40px auto;
+    background: var(--color-white);
+    color: var(--color-accent);
+    border: 2px solid var(--color-accent);
+    font-size: var(--text-md);
+    font-weight: 500;
+    font-family: var(--font-main);
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-sm);
+}
+
+.button:hover,
+.next-btn:hover {
+    background: var(--color-accent-dark);
+    color: var(--color-white);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
+}
+
+.button:active,
+.next-btn:active {
+    transform: translateY(0);
+}
+
+/* ========== АДАПТИВНОСТЬ ========== */
+@media screen and (max-width: 1024px) {
+    :root {
+        --text-5xl: 42px;
+        --text-4xl: 28px;
+        --container-padding: 15px;
+    }
+    
+    .my_blog_next_article {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .article {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .article_img {
+        width: 100%;
+        max-width: 500px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    :root {
+        --text-5xl: 32px;
+        --text-4xl: 24px;
+        --text-3xl: 22px;
+        --container-padding: 15px;
+    }
+    
+    .header {
+        flex-direction: column;
+        height: auto;
+        gap: var(--spacing-md);
+        padding: var(--spacing-md) 10%;
+    }
+    
+    .greetings {
+        flex-direction: column;
+        height: auto;
+        gap: var(--spacing-2xl);
+    }
+    
+    .grettings_tetx {
+        width: 100%;
+        text-align: center;
+    }
+    
+    .experience {
+        flex-direction: column;
+    }
+    
+    .experience-item {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+    
+    .hobbi {
+        flex-direction: column;
+    }
+    
+    .hobbi_img_left {
+        flex-direction: column;
+    }
+    
+    .my_blog_next_article {
+        grid-template-columns: 1fr;
+    }
+    
+    .my_blog_article_max_size {
+        flex-direction: column;
+    }
+    
+    .footer-container {
+        flex-direction: column;
+        gap: var(--spacing-2xl);
+    }
+}
+
+@media screen and (max-width: 480px) {
+    :root {
+        --text-5xl: 28px;
+        --text-4xl: 24px;
+        --text-3xl: 20px;
+    }
+    
+    .skills-container .my_skills {
+        flex: 1 1 100%;
+    }
+    
+    .submit-btn {
+        width: 100%;
+    }
+}
+/* Стили для карточки с анимацией */
+.hobby-card {
+    position: relative;
+    flex: 1 1 200px;
+    min-width: 150px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.hobby-card img {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: transform 0.5s ease;
+}
+
+/* Оверлей (затемнение с текстом) */
+.hobby-card .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.7));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+/* Текст внутри оверлея */
+.hobby-card .overlay-text {
+    text-align: center;
+    color: white;
+    padding: 20px;
+    transform: translateY(30px);
+    transition: transform 0.4s ease;
+}
+
+.hobby-card .overlay-text h3 {
+    font-size: 20px;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.hobby-card .overlay-text p {
+    font-size: 14px;
+    line-height: 1.5;
+    margin: 0;
+}
+
+/* Эффекты при наведении */
+.hobby-card:hover {
+    transform: translateY(-5px);
+}
+
+.hobby-card:hover img {
+    transform: scale(1.1);
+}
+
+.hobby-card:hover .overlay {
+    opacity: 1;
+}
+
+.hobby-card:hover .overlay-text {
+    transform: translateY(0);
+}

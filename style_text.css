@@ -1,0 +1,324 @@
+/* ========== ПЕРЕМЕННЫЕ ========== */
+:root {
+    /* Цвета */
+    --color-primary: #323747;
+    --color-secondary: #68686A;
+    --color-accent: #61C15C;
+    --color-accent-dark: #4a9e4a;
+    --color-orange: #DB5E31;
+    --color-white: #FDFEFF;
+    --color-dark: #333;
+    --color-gray: #666;
+    
+    /* Типографика */
+    --font-main: 'Inter', sans-serif;
+    --letter-tight: -0.01em;
+    --letter-tighter: -0.02em;
+    --letter-ultra-tight: -0.03em;
+    
+    /* Размеры */
+    --text-xs: 15px;
+    --text-sm: 16px;
+    --text-md: 18px;
+    --text-lg: 20px;
+    --text-xl: 21px;
+    --text-2xl: 24px;
+    --text-3xl: 28px;
+    --text-4xl: 29px;
+    --text-5xl: 32px;
+    --text-6xl: 52px;
+    
+    /* Отступы */
+    --spacing-xs: 8px;
+    --spacing-sm: 10px;
+    --spacing-md: 15px;
+    --spacing-lg: 20px;
+    --spacing-xl: 25px;
+    --spacing-2xl: 30px;
+    
+    /* Линии */
+    --line-height-tight: 1;
+    --line-height-normal: 26px;
+    --line-height-relaxed: 25px;
+}
+
+/* ========== ПОДКЛЮЧЕНИЕ ШРИФТОВ ========== */
+@font-face {
+    font-family: 'Inter';
+    src: url('fonts/inter-normal-latin.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Inter';
+    src: url('fonts/inter-italic.woff2') format('woff2');
+    font-weight: 400;
+    font-style: italic;
+    font-display: swap;
+}
+
+/* ========== БАЗОВЫЕ СТИЛИ ========== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-main);
+    color: var(--color-primary);
+}
+
+/* ========== УТИЛИТЫ ДЛЯ ШРИФТОВ ========== */
+.text-regular {
+    font-family: var(--font-main);
+    font-weight: 400;
+    font-style: normal;
+}
+
+.text-bold {
+    font-family: var(--font-main);
+    font-weight: 700;
+    font-style: normal;
+}
+
+/* ========== ЗАГОЛОВКИ ========== */
+h1, h2, h3, h4, .title-large {
+    font-family: var(--font-main);
+    font-weight: 700;
+    font-style: normal;
+    color: var(--color-primary);
+}
+
+/* Крупные заголовки 52px */
+.grettings_tetx h1,
+article h3,
+.title_articles h2,
+.hobbi h2,
+.footer-title,
+.my_blog_title_text h1 {
+    font-size: var(--text-6xl);
+    line-height: var(--line-height-tight);
+    letter-spacing: 0;
+    color: var(--color-primary);
+}
+
+.footer-title {
+    color: var(--color-white);
+}
+
+.hobbi h2,
+.title_articles h2 {
+    font-weight: 700;
+}
+
+/* Средние заголовки 32px */
+.article_text h3 {
+    font-size: var(--text-5xl);
+    line-height: var(--line-height-normal);
+    letter-spacing: var(--letter-tight);
+    margin-bottom: var(--spacing-lg);
+}
+
+/* Заголовки 28px */
+.my_blog_article_max_size_text h3 {
+    font-size: var(--text-3xl);
+    font-weight: 600;
+    line-height: 1.3;
+    color: var(--color-dark);
+}
+
+/* Заголовки 24px */
+.header h2 {
+    font-size: var(--text-2xl);
+    line-height: var(--line-height-tight);
+    letter-spacing: var(--letter-ultra-tight);
+    color: var(--color-dark);
+}
+
+/* Заголовки 20px */
+.experience-item h4 {
+    font-size: var(--text-lg);
+    line-height: var(--line-height-normal);
+    letter-spacing: var(--letter-tighter);
+}
+
+/* ========== ТЕКСТ ========== */
+p, .text-body {
+    font-family: var(--font-main);
+    font-weight: 400;
+    font-style: normal;
+    color: var(--color-secondary);
+}
+
+/* Текст 29px */
+.my_blog_title_text p {
+    font-size: var(--text-4xl);
+    color: var(--color-secondary);
+}
+
+/* Текст 24px */
+.my_skills {
+    font-size: var(--text-2xl);
+    line-height: var(--line-height-normal);
+    letter-spacing: var(--letter-tight);
+    color: var(--color-primary);
+}
+
+/* Текст 21px */
+.experience-title p,
+.hobbi_conteiner_right p {
+    font-size: var(--text-xl);
+    line-height: var(--line-height-normal);
+    letter-spacing: var(--letter-tighter);
+    color: var(--color-primary);
+}
+
+/* Текст 16px */
+.article_text time,
+.article_text p:last-of-type,
+.experience-item time,
+.experience-item p,
+.contact-info,
+.my_blog_article_max_size_text p:first-of-type,
+.my_blog_article_max_size_text p:last-of-type {
+    font-size: var(--text-sm);
+    line-height: var(--line-height-normal);
+    letter-spacing: var(--letter-tight);
+}
+
+.experience-item p {
+    line-height: var(--line-height-relaxed);
+}
+
+.contact-info {
+    color: var(--color-white);
+}
+
+/* Текст 15px */
+.grettings_tetx p,
+.menu li a {
+    font-size: var(--text-xs);
+    line-height: var(--line-height-tight);
+    letter-spacing: var(--letter-ultra-tight);
+}
+
+.grettings_tetx p {
+    line-height: var(--line-height-normal);
+    margin-bottom: var(--spacing-2xl);
+}
+
+/* Текст 18px */
+.feedback-form {
+    font-size: var(--text-md);
+    color: var(--color-white);
+}
+
+/* Текст 16px с весом 500 */
+.my_blog_article_max_size_text p:first-of-type {
+    font-weight: 500;
+    padding-bottom: var(--spacing-sm);
+}
+
+/* Текст 16px серый */
+.my_blog_article_max_size_text p:last-of-type {
+    color: var(--color-gray);
+    line-height: 1.6;
+}
+
+/* ========== СПЕЦИАЛЬНЫЕ ЭЛЕМЕНТЫ ========== */
+/* Время */
+.article_text time {
+    color: var(--color-orange);
+    display: inline-block;
+    margin-bottom: var(--spacing-md);
+}
+
+.article:nth-child(2) .article_text time {
+    color: var(--color-accent);
+}
+
+.experience-item time {
+    color: var(--color-primary);
+}
+
+/* Меню */
+.menu li a {
+    color: var(--color-secondary);
+    padding: var(--spacing-xs) 0;
+    transition: all 0.3s ease;
+    display: inline-block;
+}
+
+.menu li a.active,
+.menu li a:hover {
+    color: var(--color-accent);
+    font-weight: 700;
+}
+
+.menu ul {
+    gap: var(--spacing-lg);
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+/* Ссылка с стрелкой */
+.grettings_tetx a {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    font-size: var(--text-xs);
+    line-height: 21px;
+    letter-spacing: 0.01em;
+    color: var(--color-accent);
+    padding: var(--spacing-sm) 0;
+    transition: all 0.3s ease;
+}
+
+.grettings_tetx a h1 {
+    font-size: var(--text-lg);
+    color: var(--color-accent);
+    margin: 0;
+    display: inline;
+    transition: transform 0.3s ease;
+}
+
+.grettings_tetx a:hover {
+    color: var(--color-accent-dark);
+    gap: 12px;
+}
+
+.grettings_tetx a:hover h1 {
+    transform: translateX(5px);
+}
+
+/* ========== БЛОКИ И КОНТЕЙНЕРЫ ========== */
+.my_blog_title {
+    padding-bottom: 55px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* ========== АДАПТИВНОСТЬ ========== */
+@media screen and (max-width: 768px) {
+    :root {
+        --text-6xl: 36px;
+        --text-5xl: 28px;
+        --text-4xl: 24px;
+        --text-3xl: 24px;
+        --text-2xl: 20px;
+        --text-xl: 18px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    :root {
+        --text-6xl: 28px;
+        --text-5xl: 24px;
+        --text-4xl: 22px;
+        --text-3xl: 22px;
+    }
+}
