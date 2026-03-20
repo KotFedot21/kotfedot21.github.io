@@ -1,0 +1,340 @@
+/* ========== ПЕРЕМЕННЫЕ ========== */
+:root {
+    /* Шрифты */
+    --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-heading: 'Inter', sans-serif;
+    
+    /* Цвета */
+    --color-dark: #323743;
+    --color-dark-soft: #68686A;
+    --color-dark-light: #666;
+    --color-green: #61C15C;
+    --color-green-dark: #4a9e4a;
+    --color-orange: #DB5E31;
+    --color-white: #FDFEFF;
+    
+    /* Типографика */
+    --letter-spacing-tight: -0.01em;
+    --letter-spacing-tighter: -0.02em;
+    --letter-spacing-normal: 0;
+    
+    /* Отступы */
+    --spacing-xs: 8px;
+    --spacing-sm: 10px;
+    --spacing-md: 15px;
+    --spacing-lg: 20px;
+    --spacing-xl: 25px;
+    --spacing-xxl: 30px;
+    
+    /* Переходы */
+    --transition-base: all 0.3s ease;
+    --transition-transform: transform 0.3s ease;
+}
+
+/* ========== ПОДКЛЮЧЕНИЕ ШРИФТОВ ========== */
+@font-face {
+    font-family: 'Inter';
+    src: url('fonts/inter-normal-latin.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Inter';
+    src: url('fonts/inter-italic.woff2') format('woff2');
+    font-weight: 400;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Inter';
+    src: url('fonts/inter-italic-cyrillic.woff2') format('woff2');
+    font-weight: 400;
+    font-style: italic;
+    font-display: swap;
+}
+
+/* ========== БАЗОВЫЕ СТИЛИ ДЛЯ ТЕКСТА ========== */
+body {
+    font-family: var(--font-primary);
+    color: var(--color-dark);
+}
+
+/* Утилиты для текста */
+.text-regular {
+    font-weight: 400;
+    font-style: normal;
+}
+
+.text-bold {
+    font-weight: 700;
+    font-style: normal;
+}
+
+/* ========== ЗАГОЛОВКИ ========== */
+h1, h2, h3, h4, .h1, .h2, .h3, .h4 {
+    font-family: var(--font-heading);
+    color: var(--color-dark);
+    margin: 0;
+    color: var(--color-dark);
+}
+
+/* Специфичные заголовки */
+.grettings_tetx h1,
+.my_blog_title_text h1,
+.footer-title,
+.hobbi h2 {
+    font-weight: 700;
+    font-size: 52px;
+    line-height: 1;
+    letter-spacing: var(--letter-spacing-normal);
+    color: var(--color-dark);
+}
+
+.my_blog_title_text h1 {
+    color: #323747;
+}
+
+.footer-title {
+    color: var(--color-white);
+}
+
+.article_text h3,
+article h3 {
+    font-weight: 700;
+    font-size: 32px;
+    line-height: 26px;
+    letter-spacing: var(--letter-spacing-tight);
+    color: #323747;
+    margin-bottom: var(--spacing-lg);
+}
+
+article h3 {
+    font-size: 52px;
+}
+
+.experience-item h4,
+.my_blog_article_max_size_text h3 {
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 26px;
+    letter-spacing: var(--letter-spacing-tighter);
+    color: var(--color-dark);
+}
+
+.my_blog_article_max_size_text h3 {
+    font-size: 28px;
+    font-weight: 600;
+    line-height: 1.3;
+}
+
+/* ========== ТЕКСТ И ПАРАГРАФЫ ========== */
+p, .text-body {
+    font-family: var(--font-primary);
+    font-weight: 400;
+    font-style: normal;
+    color: var(--color-dark-soft);
+    margin: 0;
+}
+
+.grettings_tetx p {
+    font-size: 15px;
+    line-height: 26px;
+    letter-spacing: var(--letter-spacing-tight);
+    color: var(--color-dark-soft);
+    margin-bottom: var(--spacing-xxl);
+}
+
+.my_blog_title_text p {
+    font-size: 29px;
+    color: var(--color-dark-soft);
+}
+
+.experience-title p,
+.hobbi_conteiner_right p {
+    font-size: 21px;
+    line-height: 26px;
+    letter-spacing: var(--letter-spacing-tighter);
+    color: var(--color-dark);
+}
+
+.hobbi_conteiner_right p {
+    color: var(--color-dark);
+    letter-spacing: var(--letter-spacing-tighter);
+}
+
+.my_skills {
+    font-size: 24px;
+    line-height: 26px;
+    letter-spacing: var(--letter-spacing-tight);
+    color: var(--color-dark);
+}
+
+.experience-item p {
+    font-size: 16px;
+    line-height: 25px;
+    color: var(--color-dark);
+}
+
+.article_text p:last-of-type,
+.my_blog_article_max_size_text p:last-of-type {
+    font-size: 16px;
+    line-height: 26px;
+    letter-spacing: var(--letter-spacing-tight);
+    color: var(--color-dark);
+    margin: 0;
+}
+
+/* ========== СПЕЦИАЛЬНЫЕ ЭЛЕМЕНТЫ ========== */
+/* Время/даты */
+time, .article_text time,
+.experience-item time {
+    font-family: var(--font-primary);
+    font-weight: 400;
+    font-style: normal;
+    font-size: 16px;
+    line-height: 26px;
+    letter-spacing: var(--letter-spacing-tight);
+    display: inline-block;
+}
+
+.article_text time {
+    color: var(--color-orange);
+    margin-bottom: var(--spacing-md);
+}
+
+.article:nth-child(2) .article_text time {
+    color: var(--color-green);
+}
+
+.experience-item time {
+    color: var(--color-dark);
+}
+
+/* Меню */
+.header h2 {
+    font-family: var(--font-primary);
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    color: var(--color-dark);
+    margin: 0;
+}
+
+.menu li a {
+    font-family: var(--font-primary);
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    color: var(--color-dark-soft);
+    padding: var(--spacing-xs) 0;
+    display: inline-block;
+    transition: var(--transition-base);
+}
+
+.menu li a.active,
+.menu li a:hover {
+    color: var(--color-green);
+    font-weight: 700;
+}
+
+.menu ul {
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+/* Ссылки */
+.grettings_tetx a {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 21px;
+    letter-spacing: 0.01em;
+    color: var(--color-green);
+    padding: var(--spacing-sm) 0;
+    transition: var(--transition-base);
+}
+
+.grettings_tetx a:hover {
+    color: var(--color-green-dark);
+    gap: 12px;
+}
+
+.grettings_tetx a h1 {
+    font-size: 20px;
+    color: var(--color-green);
+    margin: 0;
+    display: inline;
+    transition: var(--transition-transform);
+}
+
+.grettings_tetx a:hover h1 {
+    transform: translateX(5px);
+}
+
+/* Формы и контакты */
+.contact-info,
+.feedback-form {
+    font-weight: 400;
+    font-style: normal;
+    color: var(--color-white);
+}
+
+.contact-info {
+    font-size: 16px;
+}
+
+.feedback-form {
+    font-size: 18px;
+}
+
+/* Блог */
+.my_blog_title {
+    padding-bottom: 55px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.my_blog_article_max_size_text p:first-of-type {
+    font-size: 16px;
+    font-weight: 500;
+    margin: 0;
+    padding-bottom: var(--spacing-sm);
+}
+
+/* Адаптивность для заголовков */
+@media screen and (max-width: 768px) {
+    .grettings_tetx h1,
+    .my_blog_title_text h1,
+    .footer-title,
+    .hobbi h2,
+    article h3 {
+        font-size: 36px;
+    }
+    
+    .article_text h3 {
+        font-size: 28px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .grettings_tetx h1,
+    .my_blog_title_text h1,
+    .footer-title,
+    .hobbi h2,
+    article h3 {
+        font-size: 28px;
+    }
+    
+    .my_blog_title_text p {
+        font-size: 22px;
+    }
+}
