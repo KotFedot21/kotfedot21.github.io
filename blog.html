@@ -91,24 +91,16 @@
                     <p>Опубликовано: 15 декабря 2024</p>
                 </article>
             </section>
-            
-            <!-- КОНТЕЙНЕР ДЛЯ ПОСТОВ - ДОБАВЛЯЕМ СЮДА -->
             <div class="posts-grid" id="postsGrid"></div>
-            
             <button class="button">Далее</button>
         </section>
     </main>
-    
-    <!-- ОВЕРЛЕЙ - ВНЕ MAIN, В КОРНЕ -->
     <div class="overlay" id="overlay"></div>
-    
-    <!-- МОДАЛЬНАЯ ФОРМА - ВНЕ MAIN, В КОРНЕ -->
     <div class="form-modal" id="formModal">
         <div class="form-container">
             <form class="article-form" id="articleForm">
                 <h2 class="form-title">Создание статьи</h2>
                 
-                <!-- Поле Заголовок -->
                 <div class="form-group">
                     <label for="title" class="form-label">
                         Заголовок <span class="required">*</span>
@@ -117,8 +109,6 @@
                            placeholder="Введите заголовок статьи" required>
                     <div class="error-message" id="titleError">Пожалуйста, заполните заголовок</div>
                 </div>
-                
-                <!-- Поле Текст (textarea) -->
                 <div class="form-group">
                     <label for="content" class="form-label">
                         Текст <span class="required">*</span>
@@ -127,8 +117,6 @@
                               rows="8" placeholder="Введите текст статьи..." required></textarea>
                     <div class="error-message" id="contentError">Пожалуйста, заполните текст</div>
                 </div>
-                
-                <!-- Кнопки -->
                 <div class="form-buttons">
                     <button type="submit" class="btn btn-save">Сохранить</button>
                     <button type="button" class="btn btn-cancel" id="cancelBtn">Отмена</button>
@@ -148,15 +136,12 @@
             </div>
             <div class="dialog-content">
                 <div class="stats-cards">
-                    <!-- Карточка количества статей -->
                     <div class="stat-card stat-card-posts">
                         <div class="stat-info">
                             <span class="stat-label">Количество статей</span>
                             <span class="stat-value" id="totalPostsCount">0</span>
                         </div>
                     </div>
-                    
-                    <!-- Карточка количества комментариев -->
                     <div class="stat-card stat-card-comments">
                         <div class="stat-info">
                             <span class="stat-label">Количество комментариев</span>
