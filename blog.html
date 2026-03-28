@@ -47,55 +47,12 @@
                 <img src="images/5e5a2152b571164612dec5e7f9fa296477087d31.png">
             </div>
             
-            <article class="my_blog_article_max_size">
-                <img src="images/ea2d1b6afe5408fad4c7e9efc468ec520d055669.png" width="100%">
-                <div class="my_blog_article_max_size_text">
-                    <h3>Как создать адаптивный дизайн за 30 минут</h3>
-                    <p>Опубликовано: 15 декабря 2024</p>
-                    <p>В статье я расскажу о ключевых принципах создания мобильных интерфейсов, которые одинаково
-                        хорошо выглядят на всех устройствах. Вы узнаете о медиа-запросах, гибких сетках и 
-                    практических примерах кода, которые можно использовать прямо сейчас.
-                    </p>
-                </div>
-            </article>
-            
-            <section class="my_blog_next_article">
-                <article class="my_blog_article">
-                    <img src="images/ea2d1b6afe5408fad4c7e9efc468ec520d055669.png" width="100%">
-                    <h3>Как создать адаптивный дизайн за 30 минут</h3>
-                    <p>Опубликовано: 15 декабря 2024</p>
-                </article>
-                <article class="my_blog_article">
-                    <img src="images/ea2d1b6afe5408fad4c7e9efc468ec520d055669.png" width="100%">
-                    <h3>Как создать адаптивный дизайн за 30 минут</h3>
-                    <p>Опубликовано: 15 декабря 2024</p>
-                </article>
-                <article class="my_blog_article">
-                    <img src="images/ea2d1b6afe5408fad4c7e9efc468ec520d055669.png" width="100%">
-                    <h3>Как создать адаптивный дизайн за 30 минут</h3>
-                    <p>Опубликовано: 15 декабря 2024</p>
-                </article>
-                <article class="my_blog_article">
-                    <img src="images/ea2d1b6afe5408fad4c7e9efc468ec520d055669.png" width="100%">
-                    <h3>Как создать адаптивный дизайн за 30 минут</h3>
-                    <p>Опубликовано: 15 декабря 2024</p>
-                </article>
-                <article class="my_blog_article">
-                    <img src="images/ea2d1b6afe5408fad4c7e9efc468ec520d055669.png" width="100%">
-                    <h3>Как создать адаптивный дизайн за 30 минут</h3>
-                    <p>Опубликовано: 15 декабря 2024</p>
-                </article>
-                <article class="my_blog_article">
-                    <img src="images/ea2d1b6afe5408fad4c7e9efc468ec520d055669.png" width="100%">
-                    <h3>Как создать адаптивный дизайн за 30 минут</h3>
-                    <p>Опубликовано: 15 декабря 2024</p>
-                </article>
-            </section>
             <div class="posts-grid" id="postsGrid"></div>
-            <button class="button">Далее</button>
         </section>
     </main>
+    
     <div class="overlay" id="overlay"></div>
+    
     <div class="form-modal" id="formModal">
         <div class="form-container">
             <form class="article-form" id="articleForm">
@@ -109,6 +66,7 @@
                            placeholder="Введите заголовок статьи" required>
                     <div class="error-message" id="titleError">Пожалуйста, заполните заголовок</div>
                 </div>
+                
                 <div class="form-group">
                     <label for="content" class="form-label">
                         Текст <span class="required">*</span>
@@ -117,6 +75,7 @@
                               rows="8" placeholder="Введите текст статьи..." required></textarea>
                     <div class="error-message" id="contentError">Пожалуйста, заполните текст</div>
                 </div>
+                
                 <div class="form-buttons">
                     <button type="submit" class="btn btn-save">Сохранить</button>
                     <button type="button" class="btn btn-cancel" id="cancelBtn">Отмена</button>
@@ -124,6 +83,7 @@
             </form>
         </div>
     </div>
+    
     <dialog id="statsDialog" class="stats-dialog">
         <div class="dialog-container">
             <div class="dialog-header">
@@ -152,6 +112,7 @@
             </div>
         </div>
     </dialog>
+    
     <template id="postTemplate">
         <article class="my_blog_article post-item">
             <img class="post-img" src="images/ea2d1b6afe5408fad4c7e9efc468ec520d055669.png" alt="Изображение поста" width="100%">
@@ -159,6 +120,7 @@
             <p class="post-date"></p>
         </article>
     </template>
+    
     <footer class="footer">
         <div class="footer-container">
             <div class="footer-column">

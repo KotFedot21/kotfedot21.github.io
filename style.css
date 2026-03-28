@@ -1006,7 +1006,7 @@ textarea.form-input {
     gap: 30px;
     margin: 40px 0;
 }
-.my_blog_article.post-item {
+/* .my_blog_article.post-item {
     background: white;
     overflow: hidden;
     transition: all 0.3s ease;
@@ -1015,7 +1015,7 @@ textarea.form-input {
 .my_blog_article.post-item:hover {
     transform: translateY(-5px);
     box-shadow: 0 5px 15px rgba(40, 167, 69, 0.15);
-}
+} */
 
 .post-img {
     width: 100%;
@@ -1024,9 +1024,9 @@ textarea.form-input {
     transition: transform 0.3s ease;
 }
 
-.my_blog_article.post-item:hover .post-img {
+/* .my_blog_article.post-item:hover .post-img {
     transform: scale(1.05);
-}
+} */
 
 .post-title {
     font-size: 18px;
@@ -1268,33 +1268,6 @@ textarea.form-input {
     stroke: white;
     stroke-width: 2;
     fill: none;
-}
-
-/* Стили для изображения */
-.my_blog_article.post-item .post-img {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-    transition: transform 0.3s ease;
-}
-
-.my_blog_article.post-item:hover .post-img {
-    transform: scale(1.05);
-}
-
-.my_blog_article.post-item .post-title {
-    font-size: 18px;
-    font-weight: 600;
-    color: #333;
-    margin: 15px 15px 5px 15px;
-    line-height: 1.4;
-}
-
-.my_blog_article.post-item .post-date {
-    font-size: 14px;
-    color: var(--color-gray);
-    font-weight: 500;
-    margin: 0 15px 15px 15px;
 }
 
 /* Анимация удаления */

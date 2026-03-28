@@ -14,6 +14,9 @@ const closeDialogBtn = document.getElementById("closeDialogBtn");
 const totalPostsCountSpan = document.getElementById("totalPostsCount");
 const commentsCountSpan = document.getElementById("commentsCount");
 
+// Ключ для localStorage
+const STORAGE_KEY = "blog_posts";
+
 // Функции формы
 function openForm() {
   if (formModal && overlay) {
@@ -43,7 +46,7 @@ function resetForm() {
     .forEach((input) => input.classList.remove("error"));
 }
 
-//Форматирование даты
+// Форматирование даты
 function getFormattedDate() {
   const today = new Date();
   const months = [
@@ -63,7 +66,48 @@ function getFormattedDate() {
   return `Опубликовано: ${today.getDate()} ${months[today.getMonth()]} ${today.getFullYear()}`;
 }
 
-// Добавление поста
+// Сохранение статей в localStorage
+function savePostsToLocalStorage() {
+  const posts = [];
+  const postElements = document.querySelectorAll(".my_blog_article.post-item");
+
+  postElements.forEach((postElement) => {
+    const titleElement = postElement.querySelector(".post-title");
+    const dateElement = postElement.querySelector(".post-date");
+    const contentElement = postElement.querySelector(".post-content");
+
+    posts.push({
+      id: postElement.getAttribute("data-post-id"),
+      title: titleElement ? titleElement.textContent : "",
+      date: dateElement ? dateElement.textContent : "",
+      content: contentElement ? contentElement.textContent : "",
+    });
+  });
+
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(posts));
+}
+
+// Загрузка статей из localStorage
+function loadPostsFromLocalStorage() {
+  const savedPosts = localStorage.getItem(STORAGE_KEY);
+
+  if (savedPosts) {
+    const posts = JSON.parse(savedPosts);
+
+    // Очищаем сетку перед загрузкой
+    if (postsGrid) {
+      postsGrid.innerHTML = "";
+    }
+
+    // Загружаем статьи в обратном порядке (новые сверху)
+    posts.reverse().forEach((post) => {
+      addPostToPage(post.title, post.content || "", post.date, post.id);
+    });
+
+    updateStats();
+  }
+}
+
 // Функция удаления статьи
 function deletePost(articleElement, postId) {
   if (!articleElement) return;
@@ -74,19 +118,22 @@ function deletePost(articleElement, postId) {
   // Ждем окончания анимации, затем удаляем элемент
   setTimeout(() => {
     articleElement.remove();
+
+    // Удаляем из localStorage
+    const savedPosts = localStorage.getItem(STORAGE_KEY);
+    if (savedPosts) {
+      let posts = JSON.parse(savedPosts);
+      posts = posts.filter((post) => post.id !== postId);
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(posts));
+    }
+
     updateStats(); // Обновляем статистику
     showNotification("Статья удалена", "info");
-
-    // Если был передан postId, можно также удалить из массива
-    if (postId !== undefined) {
-      // Здесь можно добавить логику удаления из массива данных
-      console.log(`Статья с ID ${postId} удалена`);
-    }
   }, 300);
 }
 
 // Добавление поста с кнопкой удаления
-function addPostToPage(title, content, date) {
+function addPostToPage(title, content, date, existingId = null) {
   if (!postsGrid) {
     console.error("postsGrid не найден");
     return;
@@ -99,10 +146,17 @@ function addPostToPage(title, content, date) {
     postElement = postTemplate.content.cloneNode(true);
     article = postElement.querySelector(".my_blog_article");
 
-    // Удаляем текст, если есть
-    const postContent = postElement.querySelector(".post-content");
-    if (postContent) {
-      postContent.remove();
+    // Добавляем блок с текстом статьи
+    const postContent = document.createElement("p");
+    postContent.className = "post-content";
+    postContent.textContent = content;
+
+    // Вставляем текст после даты
+    const postDate = article.querySelector(".post-date");
+    if (postDate) {
+      postDate.insertAdjacentElement("afterend", postContent);
+    } else {
+      article.appendChild(postContent);
     }
   } else {
     // Создаем элемент вручную
@@ -128,6 +182,12 @@ function addPostToPage(title, content, date) {
     dateP.textContent = date;
     article.appendChild(dateP);
 
+    // Создаем текст статьи
+    const contentP = document.createElement("p");
+    contentP.className = "post-content";
+    contentP.textContent = content;
+    article.appendChild(contentP);
+
     postElement = article;
   }
 
@@ -140,9 +200,11 @@ function addPostToPage(title, content, date) {
   const postTitle = article.querySelector(".post-title");
   const postDate = article.querySelector(".post-date");
   const postImg = article.querySelector(".post-img");
+  const postContent = article.querySelector(".post-content");
 
   if (postTitle) postTitle.textContent = title;
   if (postDate) postDate.textContent = date;
+  if (postContent) postContent.textContent = content;
   if (postImg && !postImg.src) {
     postImg.src = "images/ea2d1b6afe5408fad4c7e9efc468ec520d055669.png";
   }
@@ -157,18 +219,18 @@ function addPostToPage(title, content, date) {
         </svg>
     `;
 
+  // Генерируем уникальный ID для статьи
+  const postId = existingId || Date.now().toString();
+  article.setAttribute("data-post-id", postId);
+
   // Добавляем обработчик удаления
   deleteBtn.addEventListener("click", (e) => {
     e.stopPropagation(); // Останавливаем всплытие события
-    deletePost(article);
+    deletePost(article, postId);
   });
 
   // Добавляем кнопку в статью
   article.appendChild(deleteBtn);
-
-  // Генерируем уникальный ID для статьи
-  const postId = Date.now();
-  article.setAttribute("data-post-id", postId);
 
   // Добавляем пост в начало сетки
   if (postElement === article) {
@@ -177,29 +239,30 @@ function addPostToPage(title, content, date) {
     postsGrid.prepend(postElement);
   }
 
+  // Сохраняем в localStorage
+  savePostsToLocalStorage();
+
   // Обновляем статистику
   updateStats();
 
-  // Показываем уведомление
-  showNotification("Статья успешно добавлена!");
+  // Показываем уведомление только для новых статей (не при загрузке)
+  if (!existingId) {
+    showNotification("Статья успешно добавлена!");
+  }
 }
 
 // Функция статистики
 function getPostsCount() {
-  // Считаем посты в my_blog_next_article
-  let totalPosts = document.querySelectorAll(
-    ".my_blog_next_article .my_blog_article",
-  ).length;
-
   // Считаем посты в postsGrid
+  let totalPosts = 0;
   if (postsGrid) {
-    totalPosts += postsGrid.querySelectorAll(
+    totalPosts = postsGrid.querySelectorAll(
       ".my_blog_article.post-item:not(.removing)",
     ).length;
   }
-
   return totalPosts;
 }
+
 function getCommentsCount() {
   const postsCount = getPostsCount();
   let totalComments = 0;
@@ -228,26 +291,7 @@ function closeStatsDialog() {
   }
 }
 
-// Добавление постов
-function addMockPost() {
-  const mockData = [
-    {
-      title: "Основы веб-разработки",
-      date: "Опубликовано: 1 марта 2025",
-    },
-    {
-      title: "Продвинутый CSS",
-      date: "Опубликовано: 10 марта 2025",
-    },
-    {
-      title: "JavaScript для начинающих",
-      date: "Опубликовано: 20 марта 2025",
-    },
-  ];
-  mockData.forEach((post) => addPostToPage(post.title, "", post.date));
-}
-
-//ОБРАБОТЧИК ФОРМЫ
+// ОБРАБОТЧИК ФОРМЫ
 if (articleForm) {
   articleForm.addEventListener("submit", (e) => {
     e.preventDefault();
@@ -278,7 +322,7 @@ if (articleForm) {
   });
 }
 
-// ИСПРАВЛЕННЫЙ ОБРАБОТЧИК ОТМЕНЫ
+// ОБРАБОТЧИК ОТМЕНЫ
 if (cancelBtn) {
   cancelBtn.addEventListener("click", () => {
     resetForm();
@@ -371,6 +415,7 @@ function showNotification(message, type = "success") {
 
 // Запуск
 document.addEventListener("DOMContentLoaded", () => {
+  // Загружаем сохраненные статьи из localStorage
+  loadPostsFromLocalStorage();
   updateStats();
-  addMockPost();
 });
