@@ -1,54 +1,161 @@
 // DOM элементы
 const createPostBtn = document.getElementById("createPostBtn");
-const formModal = document.getElementById("formModal");
-const overlay = document.getElementById("overlay");
-const cancelBtn = document.getElementById("cancelBtn");
-const articleForm = document.getElementById("articleForm");
-const postsGrid = document.getElementById("postsGrid");
-const postTemplate = document.getElementById("postTemplate");
-const statsBtn = document.querySelector(
-  '.sidebar-btn[title="Показать статистику"]',
-);
+const postDialog = document.getElementById("postDialog");
 const statsDialog = document.getElementById("statsDialog");
-const closeDialogBtn = document.getElementById("closeDialogBtn");
+const cancelFormBtn = document.getElementById("cancelFormBtn");
+const closeStatsDialogBtn = document.getElementById("closeStatsDialogBtn");
+const articleForm = document.getElementById("articleForm");
 const totalPostsCountSpan = document.getElementById("totalPostsCount");
 const commentsCountSpan = document.getElementById("commentsCount");
+const statsBtn = document.getElementById("statsBtn");
 
-// Ключ для localStorage
-const STORAGE_KEY = "blog_posts";
+// Получаем элементы формы для валидации
+const titleInput = document.getElementById("title");
+const contentTextarea = document.getElementById("content");
+const titleError = document.getElementById("titleError");
+const contentError = document.getElementById("contentError");
 
-// Функции формы
-function openForm() {
-  if (formModal && overlay) {
-    formModal.classList.add("active");
-    overlay.classList.add("active");
+// Функции для диалогов
+function openPostDialog() {
+  postDialog?.showModal();
+  document.body.style.overflow = "hidden";
+  // Очищаем ошибки при открытии диалога
+  clearFieldError(titleInput, titleError);
+  clearFieldError(contentTextarea, contentError);
+  // Очищаем значения полей
+  if (titleInput) titleInput.value = "";
+  if (contentTextarea) contentTextarea.value = "";
+}
+
+function closePostDialog() {
+  postDialog?.close();
+  document.body.style.overflow = "";
+  articleForm?.reset();
+
+  // Очищаем ошибки после закрытия
+  clearFieldError(titleInput, titleError);
+  clearFieldError(contentTextarea, contentError);
+}
+
+function openStatsDialog() {
+  if (statsDialog) {
+    updateStats();
+    statsDialog.showModal();
     document.body.style.overflow = "hidden";
   }
 }
 
-function closeForm() {
-  if (formModal && overlay) {
-    formModal.classList.remove("active");
-    overlay.classList.remove("active");
-    document.body.style.overflow = "";
+function closeStatsDialog() {
+  statsDialog?.close();
+  document.body.style.overflow = "";
+}
+
+// Функция добавления поста
+function addPostToPage(title, content, date) {
+  const blogContainer = document.querySelector(".articles-grid");
+
+  if (!blogContainer) {
+    console.error("Контейнер .articles-grid не найден");
+    showNotification("Ошибка: контейнер для статей не найден", "error");
+    return;
   }
-  resetForm();
+
+  const newPost = document.createElement("article");
+  newPost.className = "article-card";
+
+  const img = document.createElement("img");
+  img.src = "../images/ea2d1b6afe5408fad4c7e9efc468ec520d055669.png";
+  img.alt = title;
+
+  const contentDiv = document.createElement("div");
+  contentDiv.className = "article-card-content";
+
+  const h3 = document.createElement("h3");
+  h3.textContent = title;
+
+  const descP = document.createElement("p");
+  descP.className = "article-description";
+  descP.textContent = content;
+
+  const dateP = document.createElement("p");
+  dateP.className = "article-date";
+  dateP.textContent = date;
+
+  contentDiv.appendChild(h3);
+  contentDiv.appendChild(descP);
+  contentDiv.appendChild(dateP);
+
+  newPost.appendChild(img);
+  newPost.appendChild(contentDiv);
+
+  blogContainer.prepend(newPost);
+
+  updateStats();
+  showNotification(`Статья "${title}" успешно добавлена!`, "success");
 }
 
-// Очистка формы
-function resetForm() {
-  if (articleForm) articleForm.reset();
-  document
-    .querySelectorAll(".error-message")
-    .forEach((msg) => (msg.style.display = "none"));
-  document
-    .querySelectorAll(".form-input, .form-textarea")
-    .forEach((input) => input.classList.remove("error"));
+// Функция статистики
+function getPostsCount() {
+  return document.querySelectorAll(".articles-grid .article-card").length;
 }
 
-// Форматирование даты
-function getFormattedDate() {
-  const today = new Date();
+function getCommentsCount() {
+  const postsCount = getPostsCount();
+  let totalComments = 0;
+  for (let i = 0; i < postsCount; i++) {
+    totalComments += Math.floor(Math.random() * 13);
+  }
+  return totalComments;
+}
+
+function updateStats() {
+  if (totalPostsCountSpan) totalPostsCountSpan.textContent = getPostsCount();
+  if (commentsCountSpan) commentsCountSpan.textContent = getCommentsCount();
+}
+
+// Добавление тестовых постов
+function addMockPost() {
+  const mockData = [
+    {
+      title: "Основы веб-разработки",
+      date: "Опубликовано: 1 марта 2025",
+      content:
+        "Введение в веб-разработку. Изучаем HTML, CSS и основы создания сайтов.",
+    },
+    {
+      title: "Продвинутый CSS",
+      date: "Опубликовано: 10 марта 2025",
+      content:
+        "Глубокое погружение в CSS. Flexbox, Grid, анимации и адаптивный дизайн.",
+    },
+    {
+      title: "JavaScript для начинающих",
+      date: "Опубликовано: 20 марта 2025",
+      content:
+        "Основы JavaScript: переменные, функции, события и работа с DOM.",
+    },
+  ];
+  mockData.forEach((post) =>
+    addPostToPage(post.title, post.content, post.date),
+  );
+}
+
+// Функция уведомлений
+function showNotification(message, type = "success", duration = 2000) {
+  const notification = document.createElement("div");
+  notification.className = `notification ${type}`;
+  notification.textContent = message;
+
+  document.body.appendChild(notification);
+
+  setTimeout(() => {
+    notification.classList.add("hide");
+    setTimeout(() => notification?.remove(), 300);
+  }, duration);
+}
+
+// Вспомогательная функция для названия месяца
+function getMonthName(monthIndex) {
   const months = [
     "января",
     "февраля",
@@ -63,359 +170,183 @@ function getFormattedDate() {
     "ноября",
     "декабря",
   ];
-  return `Опубликовано: ${today.getDate()} ${months[today.getMonth()]} ${today.getFullYear()}`;
+  return months[monthIndex];
 }
 
-// Сохранение статей в localStorage
-function savePostsToLocalStorage() {
-  const posts = [];
-  const postElements = document.querySelectorAll(".my_blog_article.post-item");
+// Функции для отображения ошибок
+function showFieldError(field, errorElement, message) {
+  if (!field || !errorElement) return;
 
-  postElements.forEach((postElement) => {
-    const titleElement = postElement.querySelector(".post-title");
-    const dateElement = postElement.querySelector(".post-date");
-    const contentElement = postElement.querySelector(".post-content");
+  field.classList.add("error");
+  errorElement.textContent = message || "Пожалуйста, заполните это поле";
+  errorElement.style.display = "block";
+  errorElement.classList.add("visible");
 
-    posts.push({
-      id: postElement.getAttribute("data-post-id"),
-      title: titleElement ? titleElement.textContent : "",
-      date: dateElement ? dateElement.textContent : "",
-      content: contentElement ? contentElement.textContent : "",
-    });
-  });
-
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(posts));
+  // Добавляем красную обводку полю
+  field.style.borderColor = "#dc3545";
 }
 
-// Загрузка статей из localStorage
-function loadPostsFromLocalStorage() {
-  const savedPosts = localStorage.getItem(STORAGE_KEY);
+function clearFieldError(field, errorElement) {
+  if (!field || !errorElement) return;
 
-  if (savedPosts) {
-    const posts = JSON.parse(savedPosts);
+  field.classList.remove("error");
+  errorElement.style.display = "none";
+  errorElement.classList.remove("visible");
 
-    // Очищаем сетку перед загрузкой
-    if (postsGrid) {
-      postsGrid.innerHTML = "";
-    }
+  // Восстанавливаем стандартную обводку
+  field.style.borderColor = "";
+}
 
-    // Загружаем статьи в обратном порядке (новые сверху)
-    posts.reverse().forEach((post) => {
-      addPostToPage(post.title, post.content || "", post.date, post.id);
-    });
+// Обработчик валидации заголовка
+function validateTitle() {
+  const titleValue = titleInput?.value.trim() || "";
+  const isValid = titleValue !== "";
 
-    updateStats();
+  if (isValid) {
+    clearFieldError(titleInput, titleError);
+  } else {
+    showFieldError(titleInput, titleError, "Пожалуйста, заполните заголовок");
   }
+
+  return isValid;
 }
 
-// Функция удаления статьи
-function deletePost(articleElement, postId) {
-  if (!articleElement) return;
+// Обработчик валидации текста
+function validateContent() {
+  const contentValue = contentTextarea?.value.trim() || "";
+  const isValid = contentValue !== "";
 
-  // Добавляем класс для анимации удаления
-  articleElement.classList.add("removing");
+  if (isValid) {
+    clearFieldError(contentTextarea, contentError);
+  } else {
+    showFieldError(
+      contentTextarea,
+      contentError,
+      "Пожалуйста, заполните текст статьи",
+    );
+  }
 
-  // Ждем окончания анимации, затем удаляем элемент
-  setTimeout(() => {
-    articleElement.remove();
-
-    // Удаляем из localStorage
-    const savedPosts = localStorage.getItem(STORAGE_KEY);
-    if (savedPosts) {
-      let posts = JSON.parse(savedPosts);
-      posts = posts.filter((post) => post.id !== postId);
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(posts));
-    }
-
-    updateStats(); // Обновляем статистику
-    showNotification("Статья удалена", "info");
-  }, 300);
+  return isValid;
 }
 
-// Добавление поста с кнопкой удаления
-function addPostToPage(title, content, date, existingId = null) {
-  if (!postsGrid) {
-    console.error("postsGrid не найден");
+// Валидация всей формы
+function validateForm() {
+  const isTitleValid = validateTitle();
+  const isContentValid = validateContent();
+
+  return isTitleValid && isContentValid;
+}
+
+// Обработчик отправки формы
+function handleFormSubmit(event) {
+  event.preventDefault();
+
+  if (!validateForm()) {
+    showNotification("Пожалуйста, заполните все обязательные поля", "error");
     return;
   }
 
-  let postElement;
-  let article;
+  const title = titleInput.value.trim();
+  const content = contentTextarea.value.trim();
+  const now = new Date();
+  const dateStr = `Опубликовано: ${now.getDate()} ${getMonthName(now.getMonth())} ${now.getFullYear()}`;
 
-  if (postTemplate) {
-    postElement = postTemplate.content.cloneNode(true);
-    article = postElement.querySelector(".my_blog_article");
+  addPostToPage(title, content, dateStr);
+  closePostDialog();
+  showNotification("Статья успешно создана!", "success");
+}
 
-    // Добавляем блок с текстом статьи
-    const postContent = document.createElement("p");
-    postContent.className = "post-content";
-    postContent.textContent = content;
+// Обработчик ввода в поле заголовка
+function handleTitleInput(event) {
+  const input = event.target;
+  const value = input.value.trim() || "";
 
-    // Вставляем текст после даты
-    const postDate = article.querySelector(".post-date");
-    if (postDate) {
-      postDate.insertAdjacentElement("afterend", postContent);
-    } else {
-      article.appendChild(postContent);
-    }
+  if (value) {
+    clearFieldError(titleInput, titleError);
   } else {
-    // Создаем элемент вручную
-    article = document.createElement("article");
-    article.className = "my_blog_article post-item";
-
-    // Создаем изображение
-    const img = document.createElement("img");
-    img.className = "post-img";
-    img.src = "images/ea2d1b6afe5408fad4c7e9efc468ec520d055669.png";
-    img.alt = title;
-    article.appendChild(img);
-
-    // Создаем заголовок
-    const h3 = document.createElement("h3");
-    h3.className = "post-title";
-    h3.textContent = title;
-    article.appendChild(h3);
-
-    // Создаем дату
-    const dateP = document.createElement("p");
-    dateP.className = "post-date";
-    dateP.textContent = date;
-    article.appendChild(dateP);
-
-    // Создаем текст статьи
-    const contentP = document.createElement("p");
-    contentP.className = "post-content";
-    contentP.textContent = content;
-    article.appendChild(contentP);
-
-    postElement = article;
+    showFieldError(titleInput, titleError, "Пожалуйста, заполните заголовок");
   }
+}
 
-  // Если article еще не определен, получаем его
-  if (!article) {
-    article = postElement.querySelector(".my_blog_article") || postElement;
+// Обработчик потери фокуса заголовком
+function handleTitleBlur(event) {
+  const input = event.target;
+  const value = input.value.trim() || "";
+
+  if (!value) {
+    showFieldError(titleInput, titleError, "Пожалуйста, заполните заголовок");
   }
+}
 
-  // Заполняем данные
-  const postTitle = article.querySelector(".post-title");
-  const postDate = article.querySelector(".post-date");
-  const postImg = article.querySelector(".post-img");
-  const postContent = article.querySelector(".post-content");
+// Обработчик ввода в поле текста
+function handleContentInput(event) {
+  const textarea = event.target;
+  const value = textarea.value.trim() || "";
 
-  if (postTitle) postTitle.textContent = title;
-  if (postDate) postDate.textContent = date;
-  if (postContent) postContent.textContent = content;
-  if (postImg && !postImg.src) {
-    postImg.src = "images/ea2d1b6afe5408fad4c7e9efc468ec520d055669.png";
-  }
-
-  // СОЗДАЕМ КНОПКУ УДАЛЕНИЯ
-  const deleteBtn = document.createElement("button");
-  deleteBtn.className = "delete-post-btn";
-  deleteBtn.setAttribute("aria-label", "Удалить статью");
-  deleteBtn.innerHTML = `
-        <svg class="delete-icon" viewBox="0 0 24 24" fill="none">
-            <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-        </svg>
-    `;
-
-  // Генерируем уникальный ID для статьи
-  const postId = existingId || Date.now().toString();
-  article.setAttribute("data-post-id", postId);
-
-  // Добавляем обработчик удаления
-  deleteBtn.addEventListener("click", (e) => {
-    e.stopPropagation(); // Останавливаем всплытие события
-    deletePost(article, postId);
-  });
-
-  // Добавляем кнопку в статью
-  article.appendChild(deleteBtn);
-
-  // Добавляем пост в начало сетки
-  if (postElement === article) {
-    postsGrid.prepend(article);
+  if (value) {
+    clearFieldError(contentTextarea, contentError);
   } else {
-    postsGrid.prepend(postElement);
-  }
-
-  // Сохраняем в localStorage
-  savePostsToLocalStorage();
-
-  // Обновляем статистику
-  updateStats();
-
-  // Показываем уведомление только для новых статей (не при загрузке)
-  if (!existingId) {
-    showNotification("Статья успешно добавлена!");
+    showFieldError(
+      contentTextarea,
+      contentError,
+      "Пожалуйста, заполните текст статьи",
+    );
   }
 }
 
-// Функция статистики
-function getPostsCount() {
-  // Считаем посты в postsGrid
-  let totalPosts = 0;
-  if (postsGrid) {
-    totalPosts = postsGrid.querySelectorAll(
-      ".my_blog_article.post-item:not(.removing)",
-    ).length;
-  }
-  return totalPosts;
-}
+// Обработчик потери фокуса текстом
+function handleContentBlur(event) {
+  const textarea = event.target;
+  const value = textarea.value.trim() || "";
 
-function getCommentsCount() {
-  const postsCount = getPostsCount();
-  let totalComments = 0;
-  for (let i = 0; i < postsCount; i++)
-    totalComments += Math.floor(Math.random() * 13);
-  return totalComments;
-}
-
-function updateStats() {
-  if (totalPostsCountSpan) totalPostsCountSpan.textContent = getPostsCount();
-  if (commentsCountSpan) commentsCountSpan.textContent = getCommentsCount();
-}
-
-function openStatsDialog() {
-  if (statsDialog) {
-    updateStats();
-    statsDialog.showModal();
-    document.body.style.overflow = "hidden";
+  if (!value) {
+    showFieldError(
+      contentTextarea,
+      contentError,
+      "Пожалуйста, заполните текст статьи",
+    );
   }
 }
 
-function closeStatsDialog() {
-  if (statsDialog) {
-    statsDialog.close();
-    document.body.style.overflow = "";
-  }
-}
+// Инициализация обработчиков
+createPostBtn?.addEventListener("click", openPostDialog);
+cancelFormBtn?.addEventListener("click", closePostDialog);
+statsBtn?.addEventListener("click", openStatsDialog);
+closeStatsDialogBtn?.addEventListener("click", closeStatsDialog);
 
-// ОБРАБОТЧИК ФОРМЫ
-if (articleForm) {
-  articleForm.addEventListener("submit", (e) => {
-    e.preventDefault();
+// Обработчики формы
+articleForm?.addEventListener("submit", handleFormSubmit);
 
-    const titleInput = document.getElementById("title");
-    const contentTextarea = document.getElementById("content");
+// Обработчики валидации
+titleInput?.addEventListener("input", handleTitleInput);
+titleInput?.addEventListener("blur", handleTitleBlur);
+contentTextarea?.addEventListener("input", handleContentInput);
+contentTextarea?.addEventListener("blur", handleContentBlur);
 
-    const title = titleInput ? titleInput.value.trim() : "";
-    const content = contentTextarea ? contentTextarea.value.trim() : "";
+// Обработчики для диалога создания поста
+const postDialogCloseBtn = postDialog?.querySelector(".dialog-close");
+postDialogCloseBtn?.addEventListener("click", closePostDialog);
 
-    if (!title) {
-      showNotification("Пожалуйста, введите заголовок", "error");
-      return;
-    }
-
-    if (!content) {
-      showNotification("Пожалуйста, введите текст статьи", "error");
-      return;
-    }
-
-    const formattedDate = getFormattedDate();
-
-    addPostToPage(title, content, formattedDate);
-
-    resetForm();
-
-    closeForm();
-  });
-}
-
-// ОБРАБОТЧИК ОТМЕНЫ
-if (cancelBtn) {
-  cancelBtn.addEventListener("click", () => {
-    resetForm();
-    closeForm();
-  });
-}
-
-// Обработчик для кнопки создания статьи
-if (createPostBtn) createPostBtn.addEventListener("click", openForm);
-if (overlay) overlay.addEventListener("click", closeForm);
-if (statsBtn) statsBtn.addEventListener("click", openStatsDialog);
-if (closeDialogBtn) closeDialogBtn.addEventListener("click", closeStatsDialog);
-
-if (statsDialog) {
-  statsDialog.addEventListener("click", (e) => {
-    if (e.target === statsDialog) closeStatsDialog();
-  });
-  statsDialog.addEventListener("cancel", (e) => {
-    e.preventDefault();
-    closeStatsDialog();
-  });
-}
-
-// Очистка ошибок
-const titleInput = document.getElementById("title");
-const contentTextarea = document.getElementById("content");
-const titleError = document.getElementById("titleError");
-const contentError = document.getElementById("contentError");
-
-if (titleInput && titleError) {
-  titleInput.addEventListener("input", function () {
-    if (this.value.trim()) {
-      this.classList.remove("error");
-      titleError.style.display = "none";
-    }
-  });
-}
-if (contentTextarea && contentError) {
-  contentTextarea.addEventListener("input", function () {
-    if (this.value.trim()) {
-      this.classList.remove("error");
-      contentError.style.display = "none";
-    }
-  });
-}
-
-// Функция уведомлений
-function showNotification(message, type = "success") {
-  const notification = document.createElement("div");
-  notification.textContent = message;
-
-  let bgColor;
-  switch (type) {
-    case "error":
-      bgColor = "#dc3545";
-      break;
-    case "info":
-      bgColor = "#28a745";
-      break;
-    case "warning":
-      bgColor = "#ffc107";
-      break;
-    default:
-      bgColor = "#28a745";
-  }
-
-  notification.style.cssText = `
-        position: fixed; 
-        bottom: 30px; 
-        left: 50%; 
-        transform: translateX(-50%); 
-        background: ${bgColor}; 
-        color: white; 
-        padding: 12px 24px; 
-        border-radius: 50px; 
-        font-size: 14px; 
-        z-index: 2000; 
-        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        transition: all 0.3s ease;
-    `;
-
-  document.body.appendChild(notification);
-
-  setTimeout(() => {
-    notification.style.opacity = "0";
-    notification.style.transform = "translateX(-50%) translateY(20px)";
-    setTimeout(() => notification.remove(), 300);
-  }, 3000);
-}
-
-// Запуск
-document.addEventListener("DOMContentLoaded", () => {
-  // Загружаем сохраненные статьи из localStorage
-  loadPostsFromLocalStorage();
-  updateStats();
+postDialog?.addEventListener("click", (event) => {
+  if (event.target === postDialog) closePostDialog();
 });
+
+postDialog?.addEventListener("cancel", (event) => {
+  event.preventDefault();
+  closePostDialog();
+});
+
+// Обработчики для диалога статистики
+statsDialog?.addEventListener("click", (event) => {
+  if (event.target === statsDialog) closeStatsDialog();
+});
+
+statsDialog?.addEventListener("cancel", (event) => {
+  event.preventDefault();
+  closeStatsDialog();
+});
+
+// Инициализация
+updateStats();
+addMockPost();
+showNotification("Добро пожаловать в блог!", "info", 3000);
