@@ -426,7 +426,7 @@ body {
     transform: translateY(0);
 }
 
-/*  BLOG (БЛОГ)  */
+/*БЛОГ*/
 .my_blog {
     font-family: var(--font-main);
     padding: 2% 10%;
@@ -472,7 +472,6 @@ body {
     margin: 40px 0;
 }
 
-/* Общий стиль для всех карточек */
 .article-card {
     background: white;
     border-radius: 12px;
@@ -956,7 +955,6 @@ body {
     }
 }
 
-/*  FOOTER  */
 .footer {
     background: var(--color-black);
     color: var(--color-white);
@@ -1371,7 +1369,6 @@ body {
     margin: 0;
 }
 
-/* Контент диалога */
 .confirm-dialog-content {
     padding: 16px 28px;
 }
@@ -1383,7 +1380,6 @@ body {
     margin: 0;
 }
 
-/* Кнопки диалога */
 .confirm-dialog-buttons {
     display: flex;
     gap: 12px;
@@ -1421,7 +1417,6 @@ body {
     background: #e9ecef;
 }
 
-/* Сообщение о пустой сетке */
 .empty-state {
     grid-column: 1 / -1;
     text-align: center;
@@ -1453,7 +1448,6 @@ body {
     margin: 0;
 }
 
-/* Общая анимация для диалогов */
 @keyframes dialogFadeIn {
     from {
         opacity: 0;
@@ -1520,4 +1514,120 @@ body {
 
 .load-more-btn.hidden {
     display: none;
+}
+/* ========== ЛОАДЕР ========== */
+
+.articles-grid.loading {
+    position: relative;
+    min-height: 300px;
+}
+
+.articles-grid.loading .article-card {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.loader {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    gap: 12px;
+    z-index: 10;
+}
+
+.loader-dot {
+    width: 16px;
+    height: 16px;
+    background: var(--color-accent-dark);
+    border-radius: 50%;
+    animation: loaderDot 1.4s ease-in-out infinite;
+}
+
+.loader-dot:nth-child(1) {
+    animation-delay: 0s;
+}
+
+.loader-dot:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.loader-dot:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes loaderDot {
+    0%, 60%, 100% {
+        transform: scale(0.6);
+        opacity: 0.5;
+    }
+    30% {
+        transform: scale(1.2);
+        opacity: 1;
+    }
+}
+
+.loader.hidden,
+.loader-spinner.hidden,
+.loader-line.hidden {
+    display: none;
+}
+/* ========== DISABLE СТИЛИ ========== */
+
+button:disabled,
+.load-more-btn:disabled,
+.btn:disabled,
+.sidebar-btn:disabled,
+.pagination-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+input:disabled,
+textarea:disabled,
+.form-input:disabled,
+.form-textarea:disabled {
+    background: #f0f0f0;
+    color: #999;
+    cursor: not-allowed;
+    border-color: #ddd;
+}
+
+.form-disabled {
+    position: relative;
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+.form-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3);
+    z-index: 999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: wait;
+}
+
+
+.btn-loader {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top: 2px solid white;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin-right: 8px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
