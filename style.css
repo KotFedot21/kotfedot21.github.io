@@ -1344,7 +1344,7 @@ body {
     background: white;
     box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
     animation: dialogFadeIn 0.2s ease;
-    margin: auto;  /* Важно для центрирования в диалоге */
+    margin: auto;
 }
 
 
@@ -1421,6 +1421,7 @@ body {
     background: #e9ecef;
 }
 
+/* Сообщение о пустой сетке */
 .empty-state {
     grid-column: 1 / -1;
     text-align: center;
@@ -1462,4 +1463,61 @@ body {
         opacity: 1;
         transform: scale(1);
     }
+}
+.empty-state-message {
+    text-align: center;
+    padding: 60px 20px;
+    color: #666;
+    font-size: 16px;
+    grid-column: 1 / -1;
+}
+
+
+.button {
+    display: none;
+}
+
+.button.visible {
+    display: flex;
+}
+
+.load-more-container {
+    display: flex;
+    justify-content: center;
+    margin: 40px auto;
+}
+
+.load-more-btn {
+    width: 200px;
+    height: 54px;
+    background: var(--color-white);
+    color: var(--color-accent);
+    border: 2px solid var(--color-accent);
+    font-size: var(--text-md);
+    font-weight: 500;
+    font-family: var(--font-main);
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-sm);
+}
+
+.load-more-btn:hover:not(:disabled) {
+    background: var(--color-accent-dark);
+    color: var(--color-white);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
+}
+
+.load-more-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.load-more-btn.hidden {
+    display: none;
 }
