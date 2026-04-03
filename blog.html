@@ -4,8 +4,8 @@
     <meta charset="utf-8" />
     <title>Страница блога</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../5_ефыс/style.css">
-    <link rel="stylesheet" href="../5_ефыс/style_text.css">
+    <link rel="stylesheet" href="/Eltex_ang/6_task/style.css">
+    <link rel="stylesheet" href="/Eltex_ang/6_task/style_text.css">
 </head>
 <body>
     <header class="header">
@@ -74,6 +74,48 @@
         </section>
 
         <button class="button">Далее</button>
+        <dialog id="confirmDeleteDialog" class="confirm-dialog">
+            <div class="confirm-dialog-container">
+                <div class="confirm-dialog-header">
+                    <h3 class="confirm-dialog-title" id="confirmDialogTitle">Удалить статью?</h3>
+                </div>
+                <div class="confirm-dialog-content">
+                    <p id="confirmDialogMessage">Вы уверены, что хотите удалить эту статью? Это действие нельзя отменить.</p>
+                </div>
+                <div class="confirm-dialog-buttons">
+                    <button class="confirm-btn confirm-yes" id="confirmYesBtn">Удалить</button>
+                    <button class="confirm-btn confirm-no" id="confirmNoBtn">Отмена</button>
+                </div>
+            </div>
+        </dialog>
+        <template id="emptyStateTemplate">
+            <div class="empty-state">
+                <div class="empty-state-content">
+                    <svg class="empty-icon" viewBox="0 0 24 24" fill="none">
+                        <path d="M4 4H20V20H4V4Z" stroke="currentColor" stroke-width="1.5"/>
+                        <path d="M8 8L16 16M16 8L8 16" stroke="currentColor" stroke-width="1.5"/>
+                    </svg>
+                    <h3>Статей пока нет</h3>
+                    <p>Нажмите кнопку "+" чтобы создать первую статью</p>
+                </div>
+            </div>
+        </template>
+
+        <template id="articleCardTemplate">
+            <article class="article-card">
+                <img class="article-img" src="images/ea2d1b6afe5408fad4c7e9efc468ec520d055669.png" alt="">
+                <div class="article-card-content">
+                    <h3 class="article-title"></h3>
+                    <p class="article-description"></p>
+                    <p class="article-date"></p>
+                </div>
+                <button class="delete-post-btn" aria-label="Удалить статью" title="Удалить статью">
+                    <svg class="delete-icon" viewBox="0 0 24 24" fill="none">
+                        <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                </button>
+            </article>
+        </template>
     </main>
     
 
@@ -200,6 +242,6 @@
         </div>
     </footer>
 
-   <script src="../5_ефыс/main.js" defer></script>
+   <script src="/Eltex_ang/6_task/main.js" defer></script>
 </body>
 </html>

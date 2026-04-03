@@ -1,40 +1,157 @@
-// DOM элементы
+//DOM ЭЛЕМЕНТЫ
+
 const createPostBtn = document.getElementById("createPostBtn");
 const postDialog = document.getElementById("postDialog");
 const statsDialog = document.getElementById("statsDialog");
 const cancelFormBtn = document.getElementById("cancelFormBtn");
 const closeStatsDialogBtn = document.getElementById("closeStatsDialogBtn");
+const statsBtn = document.getElementById("statsBtn");
 const articleForm = document.getElementById("articleForm");
 const totalPostsCountSpan = document.getElementById("totalPostsCount");
 const commentsCountSpan = document.getElementById("commentsCount");
-const statsBtn = document.getElementById("statsBtn");
-
-// Получаем элементы формы для валидации
 const titleInput = document.getElementById("title");
 const contentTextarea = document.getElementById("content");
 const titleError = document.getElementById("titleError");
 const contentError = document.getElementById("contentError");
+const confirmDialog = document.getElementById("confirmDeleteDialog");
+const confirmDialogTitle = document.getElementById("confirmDialogTitle");
+const confirmDialogMessage = document.getElementById("confirmDialogMessage");
+const confirmYesBtn = document.getElementById("confirmYesBtn");
+const confirmNoBtn = document.getElementById("confirmNoBtn");
+const emptyStateTemplate = document.getElementById("emptyStateTemplate");
+const articleCardTemplate = document.getElementById("articleCardTemplate");
+let currentDeleteTarget = null;
 
-// Функции для диалогов
+function showConfirmDialog(title, message) {
+  return new Promise((resolve) => {
+    confirmDialogTitle.textContent = title;
+    confirmDialogMessage.textContent = message;
+
+    const handleYes = () => {
+      cleanup();
+      resolve(true);
+    };
+
+    const handleNo = () => {
+      cleanup();
+      resolve(false);
+    };
+
+    const handleBackdrop = (e) => {
+      if (e.target === confirmDialog) {
+        cleanup();
+        resolve(false);
+      }
+    };
+
+    const handleCancel = (e) => {
+      e.preventDefault();
+      cleanup();
+      resolve(false);
+    };
+
+    const cleanup = () => {
+      confirmYesBtn.removeEventListener("click", handleYes);
+      confirmNoBtn.removeEventListener("click", handleNo);
+      confirmDialog.removeEventListener("click", handleBackdrop);
+      confirmDialog.removeEventListener("cancel", handleCancel);
+      confirmDialog.close();
+    };
+
+    confirmYesBtn.addEventListener("click", handleYes);
+    confirmNoBtn.addEventListener("click", handleNo);
+    confirmDialog.addEventListener("click", handleBackdrop);
+    confirmDialog.addEventListener("cancel", handleCancel);
+
+    confirmDialog.showModal();
+  });
+}
+
+//УДАЛЕНИЕ СТАТЬИ
+async function deletePost(articleElement) {
+  const confirmed = await showConfirmDialog(
+    "Удалить статью?",
+    "Вы уверены, что хотите удалить эту статью? Это действие нельзя отменить.",
+  );
+
+  if (!confirmed) return;
+
+  articleElement.classList.add("deleting");
+
+  setTimeout(() => {
+    articleElement.remove();
+    updateStats();
+    showNotification("Статья успешно удалена", "info");
+
+    const remainingPosts = document.querySelectorAll(
+      ".articles-grid .article-card",
+    ).length;
+    if (remainingPosts === 0) {
+      showEmptyStateMessage();
+    }
+  }, 300);
+}
+
+function showEmptyStateMessage() {
+  const blogContainer = document.querySelector(".articles-grid");
+  if (!blogContainer) return;
+
+  const existingEmpty = blogContainer.querySelector(".empty-state");
+  if (existingEmpty) return;
+
+  if (emptyStateTemplate) {
+    const emptyState = emptyStateTemplate.content.cloneNode(true);
+    blogContainer.appendChild(emptyState);
+  }
+}
+
+function addDeleteButtonsToExistingPosts() {
+  const existingPosts = document.querySelectorAll(
+    ".articles-grid .article-card",
+  );
+
+  existingPosts.forEach((post) => {
+    const deleteBtn = post.querySelector(".delete-post-btn");
+    if (!deleteBtn) return;
+
+    const newDeleteBtn = deleteBtn.cloneNode(true);
+    deleteBtn.parentNode.replaceChild(newDeleteBtn, deleteBtn);
+
+    newDeleteBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      deletePost(post);
+    });
+  });
+}
+
+//ОЧИСТКА ФОРМЫ
+function resetForm() {
+  if (articleForm) {
+    articleForm.reset();
+  }
+
+  clearFieldError(titleInput, titleError);
+  clearFieldError(contentTextarea, contentError);
+
+  if (titleInput) titleInput.style.borderColor = "";
+  if (contentTextarea) contentTextarea.style.borderColor = "";
+}
+function closeAndClearPostDialog() {
+  resetForm();
+  closePostDialog();
+}
+
+//ДИАЛОГИ
+
 function openPostDialog() {
   postDialog?.showModal();
   document.body.style.overflow = "hidden";
-  // Очищаем ошибки при открытии диалога
-  clearFieldError(titleInput, titleError);
-  clearFieldError(contentTextarea, contentError);
-  // Очищаем значения полей
-  if (titleInput) titleInput.value = "";
-  if (contentTextarea) contentTextarea.value = "";
+  resetForm();
 }
 
 function closePostDialog() {
   postDialog?.close();
   document.body.style.overflow = "";
-  articleForm?.reset();
-
-  // Очищаем ошибки после закрытия
-  clearFieldError(titleInput, titleError);
-  clearFieldError(contentTextarea, contentError);
 }
 
 function openStatsDialog() {
@@ -50,7 +167,8 @@ function closeStatsDialog() {
   document.body.style.overflow = "";
 }
 
-// Функция добавления поста
+//ДОБАВЛЕНИЕ ПОСТА
+
 function addPostToPage(title, content, date) {
   const blogContainer = document.querySelector(".articles-grid");
 
@@ -59,42 +177,40 @@ function addPostToPage(title, content, date) {
     showNotification("Ошибка: контейнер для статей не найден", "error");
     return;
   }
+  const emptyState = blogContainer.querySelector(".empty-state");
+  if (emptyState) emptyState.remove();
+  if (!articleCardTemplate) {
+    console.error("Шаблон articleCardTemplate не найден");
+    return;
+  }
 
-  const newPost = document.createElement("article");
-  newPost.className = "article-card";
+  const newPostFragment = articleCardTemplate.content.cloneNode(true);
+  const article = newPostFragment.querySelector(".article-card");
 
-  const img = document.createElement("img");
-  img.src = "../images/ea2d1b6afe5408fad4c7e9efc468ec520d055669.png";
-  img.alt = title;
+  const img = newPostFragment.querySelector(".article-img");
+  const titleEl = newPostFragment.querySelector(".article-title");
+  const descEl = newPostFragment.querySelector(".article-description");
+  const dateEl = newPostFragment.querySelector(".article-date");
+  const deleteBtn = newPostFragment.querySelector(".delete-post-btn");
 
-  const contentDiv = document.createElement("div");
-  contentDiv.className = "article-card-content";
+  if (img) img.alt = title;
+  if (titleEl) titleEl.textContent = title;
+  if (descEl) descEl.textContent = content;
+  if (dateEl) dateEl.textContent = date;
+  if (deleteBtn) {
+    deleteBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      deletePost(article);
+    });
+  }
 
-  const h3 = document.createElement("h3");
-  h3.textContent = title;
-
-  const descP = document.createElement("p");
-  descP.className = "article-description";
-  descP.textContent = content;
-
-  const dateP = document.createElement("p");
-  dateP.className = "article-date";
-  dateP.textContent = date;
-
-  contentDiv.appendChild(h3);
-  contentDiv.appendChild(descP);
-  contentDiv.appendChild(dateP);
-
-  newPost.appendChild(img);
-  newPost.appendChild(contentDiv);
-
-  blogContainer.prepend(newPost);
-
+  blogContainer.prepend(article);
   updateStats();
   showNotification(`Статья "${title}" успешно добавлена!`, "success");
 }
 
-// Функция статистики
+//СТАТИСТИКА
+
 function getPostsCount() {
   return document.querySelectorAll(".articles-grid .article-card").length;
 }
@@ -113,7 +229,8 @@ function updateStats() {
   if (commentsCountSpan) commentsCountSpan.textContent = getCommentsCount();
 }
 
-// Добавление тестовых постов
+//ДОБАВЛЕНИЕ ПОСТОВ
+
 function addMockPost() {
   const mockData = [
     {
@@ -135,12 +252,14 @@ function addMockPost() {
         "Основы JavaScript: переменные, функции, события и работа с DOM.",
     },
   ];
+
   mockData.forEach((post) =>
     addPostToPage(post.title, post.content, post.date),
   );
 }
 
-// Функция уведомлений
+//УВЕДОМЛЕНИЙ
+
 function showNotification(message, type = "success", duration = 2000) {
   const notification = document.createElement("div");
   notification.className = `notification ${type}`;
@@ -154,7 +273,6 @@ function showNotification(message, type = "success", duration = 2000) {
   }, duration);
 }
 
-// Вспомогательная функция для названия месяца
 function getMonthName(monthIndex) {
   const months = [
     "января",
@@ -173,7 +291,8 @@ function getMonthName(monthIndex) {
   return months[monthIndex];
 }
 
-// Функции для отображения ошибок
+//ОТОБРАЖЕНИЕ ОШИБОК
+
 function showFieldError(field, errorElement, message) {
   if (!field || !errorElement) return;
 
@@ -181,8 +300,6 @@ function showFieldError(field, errorElement, message) {
   errorElement.textContent = message || "Пожалуйста, заполните это поле";
   errorElement.style.display = "block";
   errorElement.classList.add("visible");
-
-  // Добавляем красную обводку полю
   field.style.borderColor = "#dc3545";
 }
 
@@ -192,12 +309,11 @@ function clearFieldError(field, errorElement) {
   field.classList.remove("error");
   errorElement.style.display = "none";
   errorElement.classList.remove("visible");
-
-  // Восстанавливаем стандартную обводку
   field.style.borderColor = "";
 }
 
-// Обработчик валидации заголовка
+//ВАЛИДАЦИЯ
+
 function validateTitle() {
   const titleValue = titleInput?.value.trim() || "";
   const isValid = titleValue !== "";
@@ -211,7 +327,6 @@ function validateTitle() {
   return isValid;
 }
 
-// Обработчик валидации текста
 function validateContent() {
   const contentValue = contentTextarea?.value.trim() || "";
   const isValid = contentValue !== "";
@@ -229,7 +344,6 @@ function validateContent() {
   return isValid;
 }
 
-// Валидация всей формы
 function validateForm() {
   const isTitleValid = validateTitle();
   const isContentValid = validateContent();
@@ -237,7 +351,8 @@ function validateForm() {
   return isTitleValid && isContentValid;
 }
 
-// Обработчик отправки формы
+//ОБРАБОТЧИКИ ФОРМЫ
+
 function handleFormSubmit(event) {
   event.preventDefault();
 
@@ -252,11 +367,17 @@ function handleFormSubmit(event) {
   const dateStr = `Опубликовано: ${now.getDate()} ${getMonthName(now.getMonth())} ${now.getFullYear()}`;
 
   addPostToPage(title, content, dateStr);
-  closePostDialog();
+  closeAndClearPostDialog();
   showNotification("Статья успешно создана!", "success");
 }
 
-// Обработчик ввода в поле заголовка
+function handleCancelForm() {
+  closeAndClearPostDialog();
+  showNotification("Создание статьи отменено", "info", 1500);
+}
+
+//ОБРАБОТЧИКИ ВАЛИДАЦИИ
+
 function handleTitleInput(event) {
   const input = event.target;
   const value = input.value.trim() || "";
@@ -268,7 +389,6 @@ function handleTitleInput(event) {
   }
 }
 
-// Обработчик потери фокуса заголовком
 function handleTitleBlur(event) {
   const input = event.target;
   const value = input.value.trim() || "";
@@ -278,7 +398,6 @@ function handleTitleBlur(event) {
   }
 }
 
-// Обработчик ввода в поле текста
 function handleContentInput(event) {
   const textarea = event.target;
   const value = textarea.value.trim() || "";
@@ -294,7 +413,6 @@ function handleContentInput(event) {
   }
 }
 
-// Обработчик потери фокуса текстом
 function handleContentBlur(event) {
   const textarea = event.target;
   const value = textarea.value.trim() || "";
@@ -308,35 +426,33 @@ function handleContentBlur(event) {
   }
 }
 
-// Инициализация обработчиков
+//ИНИЦИАЛИЗАЦИЯ ОБРАБОТЧИКОВ
+
 createPostBtn?.addEventListener("click", openPostDialog);
-cancelFormBtn?.addEventListener("click", closePostDialog);
+cancelFormBtn?.addEventListener("click", handleCancelForm);
 statsBtn?.addEventListener("click", openStatsDialog);
 closeStatsDialogBtn?.addEventListener("click", closeStatsDialog);
-
-// Обработчики формы
 articleForm?.addEventListener("submit", handleFormSubmit);
 
-// Обработчики валидации
 titleInput?.addEventListener("input", handleTitleInput);
 titleInput?.addEventListener("blur", handleTitleBlur);
 contentTextarea?.addEventListener("input", handleContentInput);
 contentTextarea?.addEventListener("blur", handleContentBlur);
 
-// Обработчики для диалога создания поста
 const postDialogCloseBtn = postDialog?.querySelector(".dialog-close");
-postDialogCloseBtn?.addEventListener("click", closePostDialog);
+postDialogCloseBtn?.addEventListener("click", closeAndClearPostDialog);
 
 postDialog?.addEventListener("click", (event) => {
-  if (event.target === postDialog) closePostDialog();
+  if (event.target === postDialog) {
+    closeAndClearPostDialog();
+  }
 });
 
 postDialog?.addEventListener("cancel", (event) => {
   event.preventDefault();
-  closePostDialog();
+  closeAndClearPostDialog();
 });
 
-// Обработчики для диалога статистики
 statsDialog?.addEventListener("click", (event) => {
   if (event.target === statsDialog) closeStatsDialog();
 });
@@ -346,7 +462,10 @@ statsDialog?.addEventListener("cancel", (event) => {
   closeStatsDialog();
 });
 
-// Инициализация
-updateStats();
-addMockPost();
-showNotification("Добро пожаловать в блог!", "info", 3000);
+//ЗАПУСК
+document.addEventListener("DOMContentLoaded", () => {
+  updateStats();
+  addMockPost();
+  addDeleteButtonsToExistingPosts();
+  showNotification("Добро пожаловать в блог!", "info", 3000);
+});
