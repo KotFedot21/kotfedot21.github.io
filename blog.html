@@ -46,35 +46,35 @@
             </div>
             <section class="articles-grid">
             </section>
+            <div class="posts-grid" id="postsGrid"></div>
+            
+            <button class="button">Далее</button>
         </section>
-        <div class="load-more-container">
-            <button class="load-more-btn" id="loadMoreBtn">Далее</button>
-        </div>
-        <dialog id="confirmDeleteDialog" class="confirm-dialog">
-            <div class="confirm-dialog-container">
-                <div class="confirm-dialog-header">
-                    <h3 class="confirm-dialog-title" id="confirmDialogTitle">Удалить статью?</h3>
+    </main>
+    <div class="overlay" id="overlay"></div>
+    <div class="form-modal" id="formModal">
+        <div class="form-container">
+            <form class="article-form" id="articleForm">
+                <h2 class="form-title">Создание статьи</h2>
+                <div class="form-group">
+                    <label for="title" class="form-label">
+                        Заголовок <span class="required">*</span>
+                    </label>
+                    <input type="text" id="title" name="title" class="form-input" 
+                           placeholder="Введите заголовок статьи" required>
+                    <div class="error-message" id="titleError">Пожалуйста, заполните заголовок</div>
                 </div>
-                <div class="confirm-dialog-content">
-                    <p id="confirmDialogMessage">Вы уверены, что хотите удалить эту статью? Это действие нельзя отменить.</p>
+                <div class="form-group">
+                    <label for="content" class="form-label">
+                        Текст <span class="required">*</span>
+                    </label>
+                    <textarea id="content" name="content" class="form-textarea" 
+                              rows="8" placeholder="Введите текст статьи..." required></textarea>
+                    <div class="error-message" id="contentError">Пожалуйста, заполните текст</div>
                 </div>
-                <div class="confirm-dialog-buttons">
-                    <button class="confirm-btn confirm-yes" id="confirmYesBtn">Удалить</button>
-                    <button class="confirm-btn confirm-no" id="confirmNoBtn">Отмена</button>
-                </div>
-            </div>
-        </dialog>
-
-        <!-- Шаблон пустого состояния (можно оставить в HTML) -->
-        <template id="emptyStateTemplate">
-            <div class="empty-state">
-                <div class="empty-state-content">
-                    <svg class="empty-icon" viewBox="0 0 24 24" fill="none">
-                        <path d="M4 4H20V20H4V4Z" stroke="currentColor" stroke-width="1.5"/>
-                        <path d="M8 8L16 16M16 8L8 16" stroke="currentColor" stroke-width="1.5"/>
-                    </svg>
-                    <h3>Статей пока нет</h3>
-                    <p>Нажмите кнопку "+" чтобы создать первую статью</p>
+                <div class="form-buttons">
+                    <button type="submit" class="btn btn-save">Сохранить</button>
+                    <button type="button" class="btn btn-cancel" id="cancelBtn">Отмена</button>
                 </div>
             </div>
         </template>
