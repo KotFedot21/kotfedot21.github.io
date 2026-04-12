@@ -4,8 +4,8 @@
     <meta charset="utf-8" />
     <title>Страница блога</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/Eltex_ang/6_task/style.css">
-    <link rel="stylesheet" href="/Eltex_ang/6_task/style_text.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style_text.css">
 </head>
 <body>
     <header class="header">
@@ -42,38 +42,14 @@
                     <h1>Мой блог</h1>
                     <p>Небольшой рассказ о себе.....</p>
                 </div>
-            <img src="../images/5e5a2152b571164612dec5e7f9fa296477087d31.png">
+            <img src="images/5e5a2152b571164612dec5e7f9fa296477087d31.png">
             </div>
             <section class="articles-grid">
-                <article class="article-card">
-                    <img src="../images/ea2d1b6afe5408fad4c7e9efc468ec520d055669.png" width="100%">
-                    <div class="article-card-content">
-                        <h3>Как создать адаптивный дизайн за 30 минут</h3>
-                        <p class="article-description">В статье я расскажу о ключевых принципах создания мобильных интерфейсов, которые одинаково хорошо выглядят на всех устройствах. Вы узнаете о медиа-запросах, гибких сетках и практических примерах кода, которые можно использовать прямо сейчас.</p>
-                        <p class="article-date">Опубликовано: 15 декабря 2024</p>
-                    </div>
-                </article>
-                
-                <article class="article-card">
-                    <img src="images/ea2d1b6afe5408fad4c7e9efc468ec520d055669.png" width="100%">
-                    <div class="article-card-content">
-                        <h3>Как создать адаптивный дизайн за 30 минут</h3>
-                        <p class="article-description">text texttext texttext texttext texttext texttext texttext text</p>
-                        <p class="article-date">Опубликовано: 15 декабря 2024</p>
-                    </div>
-                </article>
-                
-                <article class="article-card">
-                    <img src="images/ea2d1b6afe5408fad4c7e9efc468ec520d055669.png" width="100%">
-                    <div class="article-card-content">
-                        <h3>Как создать адаптивный дизайн за 30 минут</h3>
-                        <p class="article-description">text texttext texttext texttext texttext texttext texttext text</p>
-                        <p class="article-date">Опубликовано: 15 декабря 2024</p>
-                    </div>
-                </article>
+            </section>
         </section>
-
-        <button class="button">Далее</button>
+        <div class="load-more-container">
+            <button class="load-more-btn" id="loadMoreBtn">Далее</button>
+        </div>
         <dialog id="confirmDeleteDialog" class="confirm-dialog">
             <div class="confirm-dialog-container">
                 <div class="confirm-dialog-header">
@@ -88,6 +64,8 @@
                 </div>
             </div>
         </dialog>
+
+        <!-- Шаблон пустого состояния (можно оставить в HTML) -->
         <template id="emptyStateTemplate">
             <div class="empty-state">
                 <div class="empty-state-content">
@@ -101,6 +79,7 @@
             </div>
         </template>
 
+        <!-- Шаблон карточки статьи -->
         <template id="articleCardTemplate">
             <article class="article-card">
                 <img class="article-img" src="images/ea2d1b6afe5408fad4c7e9efc468ec520d055669.png" alt="">
@@ -188,7 +167,7 @@
     
     <template id="postTemplate">
         <article class="my_blog_article">
-            <img class="post-img" src="../images/ea2d1b6afe5408fad4c7e9efc468ec520d055669.png" alt="Изображение поста" width="100%">
+            <img class="post-img" src="images/ea2d1b6afe5408fad4c7e9efc468ec520d055669.png" alt="Изображение поста" width="100%">
             <h3 class="post-title"></h3>
             <p class="post-date"></p>
         </article>
@@ -242,6 +221,6 @@
         </div>
     </footer>
 
-   <script src="/Eltex_ang/6_task/main.js" defer></script>
+   <script src="main.js" defer></script>
 </body>
 </html>
